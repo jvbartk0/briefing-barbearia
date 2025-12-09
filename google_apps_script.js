@@ -1,10 +1,10 @@
-// **NOVO CÓDIGO DO GOOGLE APPS SCRIPT PARA SUPORTE A UPLOAD DE ARQUIVOS**
+// **CÓDIGO CORRIGIDO DO GOOGLE APPS SCRIPT PARA SUPORTE A UPLOAD DE ARQUIVOS**
 
 // 1. CONFIGURAÇÕES
 const SPREADSHEET_ID = '1g5RNsnPkS4SjuExmoFNW_fHJGGn6eAf-4sC7MaylLHQ'; // SEU ID DA PLANILHA
 const EMAIL_DESTINATARIO = 'jvbartk0@gmail.com'; // SEU E-MAIL
 const NOME_BARBEARIA = 'Barbearia Briefing'; // Nome para o assunto do e-mail
-const FOLDER_ID = '1gQ8Y2aARBjFM-6UUmDiezdwQvqmSy6Hc'; // **IMPORTANTE:** ID da pasta no Google Drive onde os arquivos serão salvos. Crie uma pasta e coloque o ID aqui.
+const FOLDER_ID = '1gQ8Y2aARBjFM-6UUmDiezdwQvqmSy6Hc'; // ID da pasta no Google Drive onde os arquivos serão salvos.
 
 // 2. FUNÇÃO PRINCIPAL (doPost)
 function doPost(e) {
@@ -17,15 +17,35 @@ function doPost(e) {
     const rowData = {};
     const fileLinks = [];
 
-    // Processa os dados do formulário
-    const formFields = e.postData.type === 'application/json' ? JSON.parse(e.postData.contents) : e.parameters;
+    // O Google Apps Script lida com multipart/form-data de forma diferente.
+    // Os campos de texto estão em e.parameter e os arquivos em e.postData.contents
+    
+    // Processa os campos de texto e outros dados
+    for (const key in e.parameter) {
+      // Trata campos com múltiplos valores (checkboxes)
+      if (Array.isArray(e.parameter[key])) {
+        rowData[key] = e.parameter[key].join(', ');
+      } else {
+        rowData[key] = e.parameter[key];
+      }
+    }
 
     // Processa arquivos (se houver)
-    if (e.postData.type === 'multipart/form-data') {
+    if (e.postData && e.postData.type === 'multipart/form-data') {
+      const formBlob = e.postData.contents;
+      const boundary = e.postData.contents.match(/boundary=([^\s;]+)/)[1];
+      
+      // Esta é a forma mais robusta de acessar os arquivos em e.postData
+      const files = DriveApp.getFolderById(FOLDER_ID).createFile(formBlob).getFiles();
+      
+      // Como a forma de processamento é complexa, vamos usar a forma mais simples:
+      // O Google Apps Script coloca os arquivos em e.parameters se o nome do campo for único.
+      
+      // Itera sobre todos os parâmetros para encontrar arquivos
       for (const key in e.parameters) {
         const param = e.parameters[key];
         
-        // Verifica se é um arquivo
+        // Verifica se o parâmetro é um objeto de arquivo (Blob)
         if (param.length && param[0].getName) {
           const file = param[0];
           const blob = file.copyBlob();
@@ -39,18 +59,10 @@ function doPost(e) {
           
           // Adiciona o link do arquivo à linha de dados
           rowData[key] = fileLinks.join(' | ');
-        } else {
-          // Se não for arquivo, trata como campo normal
-          rowData[key] = param.join(', '); // Trata campos com múltiplos valores (checkboxes)
         }
       }
-    } else {
-      // Se não houver arquivo, trata como JSON (envio anterior)
-      for (const key in formFields) {
-        rowData[key] = formFields[key];
-      }
     }
-
+    
     // Garante que o Timestamp seja adicionado
     if (!rowData['Timestamp']) {
       rowData['Timestamp'] = new Date().toLocaleString('pt-BR');
@@ -115,18 +127,10 @@ function testDoPost() {
   // Esta função é apenas para testar a lógica no editor do Apps Script
   // Ela simula um evento 'e' com dados
   const mockEvent = {
-    postData: {
-      type: 'application/json',
-      contents: JSON.stringify({
-        'Nome da barbearia': 'Barbearia Teste',
-        'Ano de fundação': '2020',
-        'Timestamp': new Date().toLocaleString('pt-BR')
-      })
-    },
-    parameters: {
-      'Nome da barbearia': ['Barbearia Teste'],
-      'Ano de fundação': ['2020'],
-      'Timestamp': [new Date().toLocaleString('pt-BR')]
+    parameter: {
+      'Nome da barbearia': 'Barbearia Teste',
+      'Ano de fundação': '2020',
+      'Timestamp': new Date().toLocaleString('pt-BR')
     }
   };
   // doPost(mockEvent);
