@@ -36,22 +36,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.classList.contains('next-step')) {
                 const currentFieldset = fieldsets[currentStep];
                 
-                // Usa a validação nativa do HTML5
+                // **VALIDAÇÃO SIMPLIFICADA:** Usa a validação nativa do HTML5
                 if (!currentFieldset.checkValidity()) {
                     currentFieldset.reportValidity();
                     showStatus('Por favor, preencha todos os campos obrigatórios para avançar.', 'error');
                     return;
                 }
-                showStatus('', ''); // Limpa mensagem de status
                 showStep(currentStep + 1);
             } else if (e.target.classList.contains('prev-step')) {
-                showStatus('', ''); // Limpa mensagem de status
                 showStep(currentStep - 1);
             }
         }
     });
 
-    // --- Lógica para Campos Condicionais (Simplificada) ---
+    // --- Lógica para Campos Condicionais (Mantida) ---
 
     // Função genérica para campos condicionais
     function setupConditionalField(triggerId, targetId) {
@@ -62,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const updateVisibility = () => {
                 const isChecked = trigger.checked;
                 targetDiv.style.display = isChecked ? 'block' : 'none';
-                // A validação de required é feita pelo HTML5, mas garantimos que o campo condicional seja obrigatório se visível
                 targetDiv.querySelector('textarea').required = isChecked;
             };
 
@@ -86,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupConditionalField('estilo_outros_radio', 'estilo_outros_div');
 
 
-    // --- Lógica de Submissão do Formulário (Corrigida com SCRIPT_URL) ---
+    // --- Lógica de Submissão do Formulário (Mantida) ---
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
