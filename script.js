@@ -4,72 +4,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const fieldsets = form.querySelectorAll('fieldset');
     let currentStep = 0;
 
-    // Esconde todos os fieldsets, exceto o primeiro
+    // 1. Inicialização: Esconde todos os fieldsets, exceto o primeiro
     fieldsets.forEach((fieldset, index) => {
         fieldset.style.display = index === 0 ? 'block' : 'none';
     });
 
-    // --- Lógica de Navegação Multistep ---
-
+    // 2. Função de Transição de Tela
     function showStep(stepIndex) {
-        fieldsets.forEach((fieldset, index) => {
-            fieldset.style.display = index === stepIndex ? 'block' : 'none';
-        });
+        // Garante que o índice está dentro dos limites
+        if (stepIndex < 0 || stepIndex >= fieldsets.length) return;
+
+        // Esconde o fieldset atual
+        fieldsets[currentStep].style.display = 'none';
+        
+        // Mostra o novo fieldset
+        fieldsets[stepIndex].style.display = 'block';
+        
+        // Atualiza o passo atual
         currentStep = stepIndex;
     }
 
-    function validateCurrentStep() {
-        const currentFieldset = fieldsets[currentStep];
-        const requiredInputs = currentFieldset.querySelectorAll('[required]');
-        let isValid = true;
-
-        // Limpa erros anteriores
-        currentFieldset.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-        currentFieldset.querySelectorAll('.group-error').forEach(el => el.classList.remove('group-error'));
-
-        requiredInputs.forEach(input => {
-            // 1. Validação de campos de texto/número/textarea
-            if (input.type !== 'radio' && input.type !== 'checkbox') {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.classList.add('input-error');
-                }
-            }
-            
-            // 2. Validação específica para radio groups
-            if (input.type === 'radio') {
-                const name = input.name;
-                const group = currentFieldset.querySelector(`.radio-group`);
-                const isChecked = Array.from(currentFieldset.querySelectorAll(`input[name="${name}"]`)).some(radio => radio.checked);
-                
-                if (!isChecked) {
-                    isValid = false;
-                    if (group) group.classList.add('group-error');
-                } else {
-                    if (group) group.classList.remove('group-error');
-                }
-            }
-            
-            // 3. Validação específica para checkbox groups (menos comum ser 'required', mas mantida)
-            // Nota: Para checkboxes, a validação 'required' em um único checkbox não funciona para grupos.
-            // A validação de checkbox groups é mais complexa e geralmente não é usada em formulários multistep.
-            // Vamos focar nos campos de texto e radio buttons.
-        });
-
-        return isValid;
-    }
-
+    // 3. Lógica de Navegação (Simplificada)
     form.addEventListener('click', (e) => {
-        if (e.target.classList.contains('next-step')) {
-            if (validateCurrentStep()) {
+        // Se o clique foi em um botão de navegação
+        if (e.target.classList.contains('next-step') || e.target.classList.contains('prev-step')) {
+            e.preventDefault(); // Previne o envio do formulário
+
+            // Validação simplificada: usa a validação nativa do HTML5
+            const currentFieldset = fieldsets[currentStep];
+            if (e.target.classList.contains('next-step')) {
+                // Se for o botão Próximo, tenta validar
+                if (!currentFieldset.checkValidity()) {
+                    // Se a validação falhar, o navegador mostrará a mensagem de erro nativa
+                    currentFieldset.reportValidity();
+                    showStatus('Por favor, preencha todos os campos obrigatórios para avançar.', 'error');
+                    return;
+                }
                 showStatus('', ''); // Limpa mensagem de status
                 showStep(currentStep + 1);
-            } else {
-                showStatus('Por favor, preencha todos os campos obrigatórios para avançar.', 'error');
+            } else if (e.target.classList.contains('prev-step')) {
+                // Se for o botão Anterior, apenas volta
+                showStatus('', ''); // Limpa mensagem de status
+                showStep(currentStep - 1);
             }
-        } else if (e.target.classList.contains('prev-step')) {
-            showStatus('', ''); // Limpa mensagem de status
-            showStep(currentStep - 1);
         }
     });
 
