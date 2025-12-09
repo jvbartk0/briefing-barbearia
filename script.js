@@ -42,8 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     showStatus('Por favor, preencha todos os campos obrigatórios para avançar.', 'error');
                     return;
                 }
+                showStatus('', ''); // Limpa mensagem de status
                 showStep(currentStep + 1);
             } else if (e.target.classList.contains('prev-step')) {
+                showStatus('', ''); // Limpa mensagem de status
                 showStep(currentStep - 1);
             }
         }
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const updateVisibility = () => {
                 const isChecked = trigger.checked;
                 targetDiv.style.display = isChecked ? 'block' : 'none';
+                // A validação de required é feita pelo HTML5, mas garantimos que o campo condicional seja obrigatório se visível
                 targetDiv.querySelector('textarea').required = isChecked;
             };
 
@@ -83,12 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setupConditionalField('estilo_outros_radio', 'estilo_outros_div');
 
 
-    // --- Lógica de Submissão do Formulário (Mantida) ---
+    // --- Lógica de Submissão do Formulário (Corrigida com SCRIPT_URL) ---
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // **IMPORTANTE:** Mantenha o URL que você já configurou e que está funcionando.
+        // **SCRIPT_URL CORRIGIDO:** Este é o URL que você me forneceu anteriormente.
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSpyZv64jL2uP9UTAJ6D5fEcb4W4_aFYUX3e0UQ3of-8fD0Qa3JeFxGId0gyOW-L2qgA/exec'; 
 
         if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
