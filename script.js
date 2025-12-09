@@ -23,24 +23,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const requiredInputs = currentFieldset.querySelectorAll('[required]');
         let isValid = true;
 
+        // Limpa erros anteriores
+        currentFieldset.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+        currentFieldset.querySelectorAll('.group-error').forEach(el => el.classList.remove('group-error'));
+
         requiredInputs.forEach(input => {
-            if (!input.value.trim()) {
-                isValid = false;
-                input.classList.add('input-error');
-            } else {
-                input.classList.remove('input-error');
-            }
-            
-            // Validação específica para radio/checkbox groups
-            if (input.type === 'radio' || input.type === 'checkbox') {
-                const name = input.name;
-                const group = currentFieldset.querySelectorAll(`[name="${name}"]`);
-                const isChecked = Array.from(group).some(radio => radio.checked);
-                if (!isChecked) {
+            // 1. Validação de campos de texto/número/textarea
+            if (input.type !== 'radio' && input.type !== 'checkbox') {
+                if (!input.value.trim()) {
                     isValid = false;
-                    // Adicionar uma classe de erro visual ao grupo, se necessário
+                    input.classList.add('input-error');
                 }
             }
+            
+            // 2. Validação específica para radio groups
+            if (input.type === 'radio') {
+                const name = input.name;
+                const group = currentFieldset.querySelector(`.radio-group`);
+                const isChecked = Array.from(currentFieldset.querySelectorAll(`input[name="${name}"]`)).some(radio => radio.checked);
+                
+                if (!isChecked) {
+                    isValid = false;
+                    if (group) group.classList.add('group-error');
+                } else {
+                    if (group) group.classList.remove('group-error');
+                }
+            }
+            
+            // 3. Validação específica para checkbox groups (menos comum ser 'required', mas mantida)
+            // Nota: Para checkboxes, a validação 'required' em um único checkbox não funciona para grupos.
+            // A validação de checkbox groups é mais complexa e geralmente não é usada em formulários multistep.
+            // Vamos focar nos campos de texto e radio buttons.
         });
 
         return isValid;
@@ -52,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showStatus('', ''); // Limpa mensagem de status
                 showStep(currentStep + 1);
             } else {
-                showStatus('Por favor, preencha todos os campos obrigatórios.', 'error');
+                showStatus('Por favor, preencha todos os campos obrigatórios para avançar.', 'error');
             }
         } else if (e.target.classList.contains('prev-step')) {
             showStatus('', ''); // Limpa mensagem de status
@@ -96,8 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // **IMPORTANTE:** Substitua este URL pelo URL de implantação do seu Google Apps Script
-        // Mantenha o URL que você já configurou e que está funcionando.
+        // **IMPORTANTE:** Mantenha o URL que você já configurou e que está funcionando.
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSpyZv64jL2uP9UTAJ6D5fEcb4W4_aFYUX3e0UQ3of-8fD0Qa3JeFxGId0gyOW-L2qgA/exec'; 
 
         if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
