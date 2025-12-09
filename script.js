@@ -1,8 +1,64 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('briefingForm');
     const statusMessage = document.getElementById('statusMessage');
+    const fieldsets = form.querySelectorAll('fieldset');
+    let currentStep = 0;
 
-    // --- Lógica para Campos Condicionais ---
+    // Esconde todos os fieldsets, exceto o primeiro
+    fieldsets.forEach((fieldset, index) => {
+        fieldset.style.display = index === 0 ? 'block' : 'none';
+    });
+
+    // --- Lógica de Navegação Multistep ---
+
+    function showStep(stepIndex) {
+        fieldsets.forEach((fieldset, index) => {
+            fieldset.style.display = index === stepIndex ? 'block' : 'none';
+        });
+        currentStep = stepIndex;
+    }
+
+    function validateCurrentStep() {
+        const currentFieldset = fieldsets[currentStep];
+        const requiredInputs = currentFieldset.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredInputs.forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.classList.add('input-error');
+            } else {
+                input.classList.remove('input-error');
+            }
+            
+            // Validação específica para radio/checkbox groups
+            if (input.type === 'radio' || input.type === 'checkbox') {
+                const name = input.name;
+                const group = currentFieldset.querySelectorAll(`[name="${name}"]`);
+                const isChecked = Array.from(group).some(radio => radio.checked);
+                if (!isChecked) {
+                    isValid = false;
+                    // Adicionar uma classe de erro visual ao grupo, se necessário
+                }
+            }
+        });
+
+        return isValid;
+    }
+
+    form.addEventListener('click', (e) => {
+        if (e.target.classList.contains('next-step')) {
+            if (validateCurrentStep()) {
+                showStep(currentStep + 1);
+            } else {
+                showStatus('Por favor, preencha todos os campos obrigatórios.', 'error');
+            }
+        } else if (e.target.classList.contains('prev-step')) {
+            showStep(currentStep - 1);
+        }
+    });
+
+    // --- Lógica para Campos Condicionais (Mantida) ---
 
     // Q9: Atração - Outros
     const atracaoOutrosCheck = document.getElementById('atracao_outros_check');
@@ -33,16 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Lógica de Submissão do Formulário ---
+    // --- Lógica de Submissão do Formulário (Mantida) ---
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         // **IMPORTANTE:** Substitua este URL pelo URL de implantação do seu Google Apps Script
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_BFvmDmXCGymowG5nVoRp8toL44kUQuAo0uOg24FHWOV2_zixkfhZqWboJeeLvKNsqw/exec'; 
+        // Mantenha o URL que você já configurou e que está funcionando.
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSpyZv64jL2uP9UTAJ6D5fEcb4W4_aFYUX3e0UQ3of-8fD0Qa3JeFxGId0gyOW-L2qgA/exec'; 
 
         if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-            showStatus('Erro: O URL do Google Apps Script não foi configurado. Por favor, siga as instruções na próxima fase.', 'error');
+            showStatus('Erro: O URL do Google Apps Script não foi configurado.', 'error');
             return;
         }
 
@@ -89,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // O sucesso é inferido se não houver erro de rede.
             showStatus('Briefing enviado com sucesso! Agradecemos o seu preenchimento.', 'success');
             form.reset(); // Limpa o formulário após o envio
+            showStep(0); // Volta para o primeiro passo
             
             // Oculta campos condicionais após o reset
             atracaoOutrosDiv.style.display = 'none';
