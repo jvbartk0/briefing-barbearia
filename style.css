@@ -1,9 +1,21 @@
+/* Importação da fonte Montserrat do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #1a1a1a; /* Preto ou cinza escuro para minimalismo */
+    --secondary-color: #f0f0f0; /* Fundo claro */
+    --accent-color: #007bff; /* Azul sutil para destaque (pode ser trocado por um tom de cinza mais escuro) */
+    --text-color: #333333;
+    --border-color: #dddddd;
+    --focus-color: #999999;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
     margin: 0;
-    padding: 20px;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -11,122 +23,161 @@ body {
 }
 
 .container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+    max-width: 700px;
     width: 100%;
+    transition: all 0.3s ease;
 }
 
 h1 {
-    color: #333;
+    font-weight: 700;
+    font-size: 1.8em;
+    color: var(--primary-color);
     text-align: center;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 p {
+    font-weight: 400;
+    font-size: 0.95em;
     text-align: center;
-    margin-bottom: 20px;
-    color: #666;
+    margin-bottom: 30px;
+    color: #666666;
 }
 
 fieldset {
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
+    border: none; /* Remove a borda padrão */
+    border-bottom: 1px solid var(--border-color); /* Linha divisória sutil */
+    padding: 20px 0;
+    margin-bottom: 30px;
 }
 
 legend {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #555;
-    padding: 0 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--primary-color);
+    padding: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
 label {
     display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-color);
 }
 
 input[type="text"],
 input[type="number"],
 textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
     box-sizing: border-box;
     font-size: 1em;
+    font-family: 'Montserrat', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    border-color: var(--focus-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(153, 153, 153, 0.2);
 }
 
 textarea {
     resize: vertical;
+    min-height: 80px;
 }
 
 .radio-group, .checkbox-group {
     margin-top: 10px;
     margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #eee;
-    border-radius: 4px;
+    padding: 15px;
+    border: 1px solid var(--secondary-color); /* Borda mais clara */
+    border-radius: 6px;
+    background-color: var(--secondary-color);
 }
 
 .radio-group label, .checkbox-group label {
-    display: inline-block;
-    margin-right: 20px;
-    font-weight: normal;
+    display: block; /* Cada opção em uma nova linha */
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: 400;
+    font-size: 1em;
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
 }
 
 .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
-    margin-right: 5px;
+    margin-right: 10px;
+    accent-color: var(--primary-color); /* Cor do checkbox/radio */
 }
 
 button[type="submit"] {
-    background-color: #333;
+    background-color: var(--primary-color);
     color: white;
-    padding: 15px 20px;
+    padding: 15px 25px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1.1em;
+    font-size: 1em;
+    font-weight: 600;
     width: 100%;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 button[type="submit"]:hover {
-    background-color: #555;
+    background-color: #333333;
+}
+
+button[type="submit"]:active {
+    transform: scale(0.99);
 }
 
 .conditional-field {
-    margin-left: 20px;
-    padding-left: 10px;
-    border-left: 3px solid #ddd;
+    margin-left: 0;
+    padding-left: 15px;
+    border-left: 3px solid var(--border-color);
+    margin-top: 15px;
+    padding-top: 10px;
 }
 
 #statusMessage {
     text-align: center;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 4px;
-    font-weight: bold;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9em;
 }
 
 .success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+    background-color: #e6ffe6; /* Verde claro minimalista */
+    color: #006600;
+    border: 1px solid #ccffcc;
 }
 
 .error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    background-color: #ffe6e6; /* Vermelho claro minimalista */
+    color: #cc0000;
+    border: 1px solid #ffcccc;
 }
