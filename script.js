@@ -55,58 +55,40 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Cria um novo FormData para incluir os arquivos
         const formData = new FormData(form);
-        const data = {};
-
-        // Processa os dados do formulário, tratando campos de múltipla escolha
-        const multiValueFields = {};
-
-        for (const [key, value] of formData.entries()) {
-            // Verifica se o campo é de múltipla escolha (checkboxes)
-            if (key === "O que mais atrai clientes hoje?" || key === "Serviços Oferecidos" || key === "Tom de Comunicação") {
-                if (!multiValueFields[key]) {
-                    multiValueFields[key] = [];
-                }
-                multiValueFields[key].push(value);
-            } else {
-                // Para campos de texto, número e radio button, o valor é único
-                data[key] = value;
-            }
-        }
-
-        // Junta os valores de múltipla escolha em uma única string
-        for (const key in multiValueFields) {
-            data[key] = multiValueFields[key].join(', ');
-        }
-
+        
         // Adiciona um timestamp para registro na planilha
-        data['Timestamp'] = new Date().toLocaleString('pt-BR');
+        formData.append('Timestamp', new Date().toLocaleString('pt-BR'));
 
-        showStatus('Enviando briefing...', 'info');
+        showStatus('Enviando briefing e arquivos...', 'info');
         
         try {
+            // Envio usando fetch com FormData (necessário para arquivos)
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Necessário para Google Apps Script
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
+                // Não é necessário definir Content-Type para FormData
+                body: formData
             });
 
-            // Como usamos 'no-cors', a resposta será opaca. 
-            // O sucesso é inferido se não houver erro de rede.
-            showStatus('Briefing enviado com sucesso! Agradecemos o seu preenchimento.', 'success');
-            form.reset(); // Limpa o formulário após o envio
-            
-            // Oculta campos condicionais após o reset
-            document.getElementById('atracao_outros_div').style.display = 'none';
-            document.getElementById('servicos_outros_div').style.display = 'none';
-            document.getElementById('estilo_outros_div').style.display = 'none';
+            // O Google Apps Script retorna um JSON com a resposta
+            const result = await response.json();
+
+            if (result.result === 'success') {
+                showStatus('Briefing enviado com sucesso! Agradecemos o seu preenchimento.', 'success');
+                form.reset(); // Limpa o formulário após o envio
+                
+                // Oculta campos condicionais após o reset
+                document.getElementById('atracao_outros_div').style.display = 'none';
+                document.getElementById('servicos_outros_div').style.display = 'none';
+                document.getElementById('estilo_outros_div').style.display = 'none';
+            } else {
+                showStatus('Erro ao enviar o briefing. Por favor, tente novamente. Detalhes: ' + result.message, 'error');
+            }
 
         } catch (error) {
             console.error('Erro ao enviar o formulário:', error);
-            showStatus('Erro ao enviar o briefing. Por favor, tente novamente.', 'error');
+            showStatus('Erro de conexão ao enviar o briefing. Por favor, tente novamente.', 'error');
         }
     });
 
