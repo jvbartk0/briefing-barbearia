@@ -1,19 +1,19 @@
 /* Importação da fonte Montserrat do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
 
 :root {
-    --primary-color: #1a1a1a; /* Preto ou cinza escuro para minimalismo */
-    --secondary-color: #f0f0f0; /* Fundo claro */
-    --accent-color: #007bff; /* Azul sutil para destaque (pode ser trocado por um tom de cinza mais escuro) */
-    --text-color: #333333;
-    --border-color: #dddddd;
-    --focus-color: #999999;
+    --primary-color: #1a1a1a; /* Fundo escuro */
+    --secondary-color: #ffffff; /* Elementos claros */
+    --accent-color: #990000; /* Vermelho escuro/Borgonha (Clássico de Barbearia) */
+    --text-color: #1a1a1a;
+    --border-color: #cccccc;
+    --focus-color: #990000;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     margin: 0;
     padding: 40px 20px;
     display: flex;
@@ -23,57 +23,54 @@ body {
 }
 
 .container {
-    background-color: #ffffff;
+    background-color: var(--secondary-color);
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Sombra sutil */
-    max-width: 700px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
+    max-width: 750px;
     width: 100%;
-    transition: all 0.3s ease;
+    color: var(--text-color);
 }
 
 h1 {
-    font-weight: 700;
-    font-size: 1.8em;
-    color: var(--primary-color);
+    font-weight: 900;
+    font-size: 2em;
+    color: var(--accent-color);
     text-align: center;
     margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 p {
     font-weight: 400;
-    font-size: 0.95em;
+    font-size: 1em;
     text-align: center;
     margin-bottom: 30px;
     color: #666666;
 }
 
 fieldset {
-    border: none; /* Remove a borda padrão */
-    border-bottom: 1px solid var(--border-color); /* Linha divisória sutil */
-    padding: 20px 0;
+    border: 1px solid var(--border-color);
+    padding: 25px;
     margin-bottom: 30px;
+    border-radius: 4px;
 }
 
 legend {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: var(--primary-color);
-    padding: 0;
-    margin-bottom: 15px;
-    border-bottom: 2px solid var(--primary-color);
-    display: inline-block;
-    padding-bottom: 5px;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--accent-color);
+    padding: 0 10px;
+    text-transform: uppercase;
 }
 
 label {
     display: block;
-    margin-top: 20px;
-    margin-bottom: 8px;
+    margin-top: 15px;
+    margin-bottom: 5px;
     font-weight: 600;
-    font-size: 0.9em;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 0.95em;
     color: var(--text-color);
 }
 
@@ -84,11 +81,11 @@ textarea {
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border-radius: 4px;
     box-sizing: border-box;
     font-size: 1em;
     font-family: 'Montserrat', sans-serif;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease;
 }
 
 input[type="text"]:focus,
@@ -96,67 +93,61 @@ input[type="number"]:focus,
 textarea:focus {
     border-color: var(--focus-color);
     outline: none;
-    box-shadow: 0 0 0 2px rgba(153, 153, 153, 0.2);
+    box-shadow: 0 0 0 1px var(--focus-color);
 }
 
 textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 100px;
 }
 
 .radio-group, .checkbox-group {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 15px;
-    border: 1px solid var(--secondary-color); /* Borda mais clara */
-    border-radius: 6px;
-    background-color: var(--secondary-color);
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    background-color: #f9f9f9;
 }
 
 .radio-group label, .checkbox-group label {
-    display: block; /* Cada opção em uma nova linha */
+    display: block;
     margin-top: 5px;
     margin-bottom: 5px;
     font-weight: 400;
     font-size: 1em;
-    text-transform: none;
-    letter-spacing: normal;
-    cursor: pointer;
+    color: var(--text-color);
 }
 
 .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
     margin-right: 10px;
-    accent-color: var(--primary-color); /* Cor do checkbox/radio */
+    accent-color: var(--accent-color);
 }
 
 button[type="submit"] {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
     padding: 15px 25px;
     border: none;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
+    font-size: 1.1em;
+    font-weight: 700;
     width: 100%;
     margin-top: 30px;
-    transition: background-color 0.3s ease, transform 0.1s ease;
+    transition: background-color 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 button[type="submit"]:hover {
-    background-color: #333333;
-}
-
-button[type="submit"]:active {
-    transform: scale(0.99);
+    background-color: #cc0000;
 }
 
 .conditional-field {
     margin-left: 0;
     padding-left: 15px;
-    border-left: 3px solid var(--border-color);
+    border-left: 3px solid var(--accent-color);
     margin-top: 15px;
     padding-top: 10px;
 }
@@ -165,19 +156,19 @@ button[type="submit"]:active {
     text-align: center;
     padding: 15px;
     margin-top: 20px;
-    border-radius: 6px;
+    border-radius: 4px;
     font-weight: 600;
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 .success {
-    background-color: #e6ffe6; /* Verde claro minimalista */
+    background-color: #e6ffe6;
     color: #006600;
     border: 1px solid #ccffcc;
 }
 
 .error {
-    background-color: #ffe6e6; /* Vermelho claro minimalista */
+    background-color: #ffe6e6;
     color: #cc0000;
     border: 1px solid #ffcccc;
 }
