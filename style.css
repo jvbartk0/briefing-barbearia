@@ -27,7 +27,7 @@ body {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    max-width: 600px; /* Mais estreito para foco em uma pergunta por vez */
+    max-width: 600px;
     width: 100%;
     transition: all 0.3s ease;
 }
@@ -152,7 +152,7 @@ textarea {
 
 .form-navigation button, button[type="submit"] {
     background-color: var(--primary-color);
-    color: var(--secondary-color);
+    color: #ffffff;
     padding: 12px 20px;
     border: none;
     border-radius: 8px;
