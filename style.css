@@ -2,75 +2,84 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
 
 :root {
-    --primary-color: #1a1a1a; /* Fundo escuro */
-    --secondary-color: #ffffff; /* Elementos claros */
-    --accent-color: #990000; /* Vermelho escuro/Borgonha (Clássico de Barbearia) */
-    --text-color: #1a1a1a;
-    --border-color: #cccccc;
-    --focus-color: #990000;
+    --primary-color: #6a1b9a; /* Roxo Escuro Principal */
+    --secondary-color: #f3e5f5; /* Fundo Claro Roxo */
+    --accent-color: #9c27b0; /* Roxo de Destaque */
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+    --focus-color: #ce93d8; /* Roxo Claro para Foco */
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+    background-color: var(--secondary-color);
+    color: var(--text-color);
     margin: 0;
-    padding: 20px; /* Padding reduzido para telas menores */
+    padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     min-height: 100vh;
 }
 
 .container {
-    background-color: var(--secondary-color);
-    padding: 30px; /* Padding ajustado */
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    max-width: 750px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    max-width: 600px; /* Mais estreito para foco em uma pergunta por vez */
     width: 100%;
-    color: var(--text-color);
+    transition: all 0.3s ease;
 }
 
 h1 {
     font-weight: 900;
-    font-size: 1.8em; /* Fonte ligeiramente menor para mobile */
-    color: var(--accent-color);
+    font-size: 1.8em;
+    color: var(--primary-color);
     text-align: center;
     margin-bottom: 10px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
 }
 
-p {
+#form-description {
     font-weight: 400;
     font-size: 0.9em;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: #666666;
 }
 
 fieldset {
-    border: 1px solid var(--border-color);
-    padding: 20px; /* Padding ajustado */
+    border: none;
+    padding: 0;
     margin-bottom: 20px;
-    border-radius: 4px;
+    /* Adiciona animação de fade */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 legend {
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-weight: 700;
     color: var(--accent-color);
-    padding: 0 10px;
-    text-transform: uppercase;
+    padding: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
 label {
     display: block;
     margin-top: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-weight: 600;
-    font-size: 0.9em;
+    font-size: 1em;
     color: var(--text-color);
 }
 
@@ -78,70 +87,104 @@ input[type="text"],
 input[type="number"],
 textarea {
     width: 100%;
-    padding: 10px; /* Padding ajustado */
+    padding: 12px;
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 8px;
     box-sizing: border-box;
     font-size: 1em;
     font-family: 'Montserrat', sans-serif;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
 textarea:focus {
-    border-color: var(--focus-color);
+    border-color: var(--accent-color);
     outline: none;
-    box-shadow: 0 0 0 1px var(--focus-color);
+    box-shadow: 0 0 0 3px var(--focus-color);
+}
+
+.input-error {
+    border-color: #ff0000 !important;
 }
 
 textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 100px;
 }
 
 .radio-group, .checkbox-group {
     margin-top: 10px;
     margin-bottom: 10px;
-    padding: 15px;
-    border: 1px solid #f0f0f0;
-    border-radius: 4px;
-    background-color: #f9f9f9;
+    padding: 10px;
 }
 
 .radio-group label, .checkbox-group label {
     display: block;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     font-weight: 400;
     font-size: 1em;
-    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.radio-group label:hover, .checkbox-group label:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--accent-color);
 }
 
 .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
     margin-right: 10px;
-    accent-color: var(--accent-color);
+    accent-color: var(--primary-color);
+}
+
+/* Estilo para o botão de navegação */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.form-navigation button, button[type="submit"] {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+.form-navigation button.prev-step {
+    background-color: #e0e0e0;
+    color: var(--text-color);
+}
+
+.form-navigation button:hover, button[type="submit"]:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px); /* Animação Hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-navigation button.prev-step:hover {
+    background-color: #bdbdbd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 button[type="submit"] {
-    background-color: var(--accent-color);
-    color: var(--secondary-color);
-    padding: 15px 25px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 700;
-    width: 100%;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-button[type="submit"]:hover {
-    background-color: #cc0000;
+    margin: 0;
 }
 
 .conditional-field {
@@ -156,30 +199,29 @@ button[type="submit"]:hover {
     text-align: center;
     padding: 15px;
     margin-top: 20px;
-    border-radius: 4px;
+    border-radius: 8px;
     font-weight: 600;
     font-size: 1em;
 }
 
 .success {
-    background-color: #e6ffe6;
-    color: #006600;
-    border: 1px solid #ccffcc;
+    background-color: #e8f5e9;
+    color: #388e3c;
+    border: 1px solid #c8e6c9;
 }
 
 .error {
-    background-color: #ffe6e6;
-    color: #cc0000;
-    border: 1px solid #ffcccc;
+    background-color: #fbe9e7;
+    color: #d32f2f;
+    border: 1px solid #ffccbc;
 }
 
-/* Media Query para Responsividade */
+/* Responsividade */
 @media (max-width: 600px) {
     .container {
         padding: 20px;
-        margin: 0;
-        box-shadow: none;
         border-radius: 0;
+        box-shadow: none;
     }
 
     body {
@@ -188,18 +230,13 @@ button[type="submit"]:hover {
 
     h1 {
         font-size: 1.5em;
-        letter-spacing: 1px;
     }
 
-    legend {
-        font-size: 1em;
+    .form-navigation {
+        flex-direction: column;
     }
 
-    .radio-group, .checkbox-group {
-        padding: 10px;
-    }
-
-    .radio-group label, .checkbox-group label {
-        font-size: 0.9em;
+    .form-navigation button {
+        margin: 5px 0;
     }
 }
