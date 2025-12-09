@@ -22,64 +22,66 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Atualiza o passo atual
         currentStep = stepIndex;
+        
+        // Limpa a mensagem de status
+        showStatus('', '');
     }
 
-    // 3. Lógica de Navegação (Simplificada)
+    // 3. Lógica de Navegação
     form.addEventListener('click', (e) => {
-        // Se o clique foi em um botão de navegação
+        // Verifica se o clique foi em um botão de navegação
         if (e.target.classList.contains('next-step') || e.target.classList.contains('prev-step')) {
             e.preventDefault(); // Previne o envio do formulário
 
-            // Validação simplificada: usa a validação nativa do HTML5
-            const currentFieldset = fieldsets[currentStep];
             if (e.target.classList.contains('next-step')) {
-                // Se for o botão Próximo, tenta validar
+                const currentFieldset = fieldsets[currentStep];
+                
+                // Usa a validação nativa do HTML5
                 if (!currentFieldset.checkValidity()) {
-                    // Se a validação falhar, o navegador mostrará a mensagem de erro nativa
                     currentFieldset.reportValidity();
                     showStatus('Por favor, preencha todos os campos obrigatórios para avançar.', 'error');
                     return;
                 }
-                showStatus('', ''); // Limpa mensagem de status
                 showStep(currentStep + 1);
             } else if (e.target.classList.contains('prev-step')) {
-                // Se for o botão Anterior, apenas volta
-                showStatus('', ''); // Limpa mensagem de status
                 showStep(currentStep - 1);
             }
         }
     });
 
-    // --- Lógica para Campos Condicionais (Mantida) ---
+    // --- Lógica para Campos Condicionais (Simplificada) ---
 
-    // Q9: Atração - Outros
-    const atracaoOutrosCheck = document.getElementById('atracao_outros_check');
-    const atracaoOutrosDiv = document.getElementById('atracao_outros_div');
-    atracaoOutrosCheck.addEventListener('change', () => {
-        atracaoOutrosDiv.style.display = atracaoOutrosCheck.checked ? 'block' : 'none';
-        atracaoOutrosDiv.querySelector('textarea').required = atracaoOutrosCheck.checked;
-    });
+    // Função genérica para campos condicionais
+    function setupConditionalField(triggerId, targetId) {
+        const trigger = document.getElementById(triggerId);
+        const targetDiv = document.getElementById(targetId);
+        
+        if (trigger && targetDiv) {
+            const updateVisibility = () => {
+                const isChecked = trigger.checked;
+                targetDiv.style.display = isChecked ? 'block' : 'none';
+                targetDiv.querySelector('textarea').required = isChecked;
+            };
 
-    // Q14: Serviços - Outros
-    const servicosOutrosCheck = document.getElementById('servicos_outros_check');
-    const servicosOutrosDiv = document.getElementById('servicos_outros_div');
-    servicosOutrosCheck.addEventListener('change', () => {
-        servicosOutrosDiv.style.display = servicosOutrosCheck.checked ? 'block' : 'none';
-        servicosOutrosDiv.querySelector('textarea').required = servicosOutrosCheck.checked;
-    });
+            // Para checkboxes e radio buttons
+            if (trigger.type === 'checkbox' || trigger.type === 'radio') {
+                trigger.addEventListener('change', updateVisibility);
+                // Se for radio, precisa monitorar todos os radios do mesmo grupo
+                if (trigger.type === 'radio') {
+                    document.querySelectorAll(`input[name="${trigger.name}"]`).forEach(radio => {
+                        radio.addEventListener('change', updateVisibility);
+                    });
+                }
+            }
+            // Inicializa o estado
+            updateVisibility();
+        }
+    }
 
-    // Q17: Estilo Visual - Outros
-    const estiloOutrosRadio = document.getElementById('estilo_outros_radio');
-    const estiloOutrosDiv = document.getElementById('estilo_outros_div');
-    const estiloVisualRadios = document.querySelectorAll('input[name="Estilo Visual Desejado"]');
-    
-    estiloVisualRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-            const isOutrosSelected = estiloOutrosRadio.checked;
-            estiloOutrosDiv.style.display = isOutrosSelected ? 'block' : 'none';
-            estiloOutrosDiv.querySelector('textarea').required = isOutrosSelected;
-        });
-    });
+    setupConditionalField('atracao_outros_check', 'atracao_outros_div');
+    setupConditionalField('servicos_outros_check', 'servicos_outros_div');
+    setupConditionalField('estilo_outros_radio', 'estilo_outros_div');
+
 
     // --- Lógica de Submissão do Formulário (Mantida) ---
 
@@ -140,9 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
             showStep(0); // Volta para o primeiro passo
             
             // Oculta campos condicionais após o reset
-            atracaoOutrosDiv.style.display = 'none';
-            servicosOutrosDiv.style.display = 'none';
-            estiloOutrosDiv.style.display = 'none';
+            document.getElementById('atracao_outros_div').style.display = 'none';
+            document.getElementById('servicos_outros_div').style.display = 'none';
+            document.getElementById('estilo_outros_div').style.display = 'none';
 
         } catch (error) {
             console.error('Erro ao enviar o formulário:', error);
