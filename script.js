@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         
         // **SCRIPT_URL CORRIGIDO:** Este é o URL que você me forneceu anteriormente.
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSpyZv64jL2uP9UTAJ6D5fEcb4W4_aFYUX3e0UQ3of-8fD0Qa3JeFxGId0gyOW-L2qgA/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzuYGABI1sVqdQfnucNdz2wgPXV4O05aYXDN4WNdLE_aq2cjpZxjXNL07_V9bBgN8imRw/exec'; 
 
         if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
             showStatus('Erro: O URL do Google Apps Script não foi configurado.', 'error');
