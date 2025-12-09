@@ -9,12 +9,12 @@
 <body>
     <div class="container">
         <h1>Briefing - Identidade Visual Barbearia</h1>
-        <p>Por favor, preencha o formulário com o máximo de detalhes possível para a criação da sua identidade visual.</p>
+        <p id="form-description">Por favor, preencha o formulário com o máximo de detalhes possível para a criação da sua identidade visual.</p>
         
         <form id="briefingForm">
             
             <!-- 1. Dados da Barbearia -->
-            <fieldset>
+            <fieldset data-step="1">
                 <legend>1. Dados da Barbearia</legend>
                 
                 <label for="nome_barbearia">1. Nome da barbearia</label>
@@ -28,10 +28,14 @@
                 
                 <label for="historia">4. Resuma em poucas palavras a história da barbearia</label>
                 <textarea id="historia" name="Resuma em poucas palavras a história da barbearia" rows="4" required></textarea>
+                
+                <div class="form-navigation">
+                    <button type="button" class="next-step">Próximo</button>
+                </div>
             </fieldset>
 
             <!-- 2. Público-Alvo -->
-            <fieldset>
+            <fieldset data-step="2" style="display:none;">
                 <legend>2. Público-Alvo</legend>
                 
                 <label for="publico_alvo">5. Público-Alvo: Descreva quem são os clientes da barbearia</label>
@@ -61,10 +65,15 @@
                     <label for="atracao_outros_text">9. Se selecionou 'Outros', por favor especifique</label>
                     <textarea id="atracao_outros_text" name="Se selecionou 'Outros', por favor especifique (Atração)" rows="2"></textarea>
                 </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="prev-step">Anterior</button>
+                    <button type="button" class="next-step">Próximo</button>
+                </div>
             </fieldset>
 
             <!-- 3. Identidade e Posicionamento -->
-            <fieldset>
+            <fieldset data-step="3" style="display:none;">
                 <legend>3. Identidade e Posicionamento</legend>
                 
                 <label for="personalidade">10. Como você define a personalidade da barbearia?</label>
@@ -139,10 +148,15 @@
                     <label><input type="checkbox" name="Tom de Comunicação" value="Premium e exclusivo"> Premium e exclusivo</label>
                     <label><input type="checkbox" name="Tom de Comunicação" value="Masculino e forte"> Masculino e forte</label>
                 </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="prev-step">Anterior</button>
+                    <button type="button" class="next-step">Próximo</button>
+                </div>
             </fieldset>
 
             <!-- 4. Informações Complementares -->
-            <fieldset>
+            <fieldset data-step="4" style="display:none;">
                 <legend>4. Informações Complementares</legend>
                 
                 <label for="slogan">25. Há slogan? Qual?</label>
@@ -156,9 +170,13 @@
                 
                 <label for="observacoes_gerais">28. Observações gerais</label>
                 <textarea id="observacoes_gerais" name="Observações gerais" rows="4" required></textarea>
-            </fieldset>
 
-            <button type="submit">Enviar Briefing</button>
+                <div class="form-navigation">
+                    <button type="button" class="prev-step">Anterior</button>
+                    <button type="submit">Enviar Briefing</button>
+                </div>
+            </fieldset>
+            
             <p id="statusMessage" style="display:none;"></p>
         </form>
     </div>
