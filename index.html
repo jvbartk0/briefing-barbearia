@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Briefing - Identidade Visual Barbearia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Briefing - Identidade Visual Barbearia</h1>
+        <p>Por favor, preencha o formulário com o máximo de detalhes possível para a criação da sua identidade visual.</p>
+        
+        <form id="briefingForm">
+            
+            <!-- 1. Dados da Barbearia -->
+            <fieldset>
+                <legend>1. Dados da Barbearia</legend>
+                
+                <label for="nome_barbearia">1. Nome da barbearia</label>
+                <input type="text" id="nome_barbearia" name="Nome da barbearia" required>
+                
+                <label for="ano_fundacao">2. Ano de fundação</label>
+                <input type="number" id="ano_fundacao" name="Ano de fundação" min="1900" max="2099" required>
+                
+                <label for="localizacao">3. Localização (cidade/estado)</label>
+                <input type="text" id="localizacao" name="Localização (cidade/estado)" required>
+                
+                <label for="historia">4. Resuma em poucas palavras a história da barbearia</label>
+                <textarea id="historia" name="Resuma em poucas palavras a história da barbearia" rows="4" required></textarea>
+            </fieldset>
+
+            <!-- 2. Público-Alvo -->
+            <fieldset>
+                <legend>2. Público-Alvo</legend>
+                
+                <label for="publico_alvo">5. Público-Alvo: Descreva quem são os clientes da barbearia</label>
+                <textarea id="publico_alvo" name="Público-Alvo: Descreva quem são os clientes da barbearia" rows="4" required></textarea>
+                
+                <label for="faixa_etaria">6. Faixa etária predominante</label>
+                <input type="text" id="faixa_etaria" name="Faixa etária predominante" required>
+                
+                <label>7. Estilo do público-alvo</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="Estilo do público-alvo" value="Clássico" required> Clássico</label>
+                    <label><input type="radio" name="Estilo do público-alvo" value="Moderno"> Moderno</label>
+                    <label><input type="radio" name="Estilo do público-alvo" value="Raiz"> Raiz</label>
+                    <label><input type="radio" name="Estilo do público-alvo" value="Premium"> Premium</label>
+                    <label><input type="radio" name="Estilo do público-alvo" value="Popular"> Popular</label>
+                </div>
+
+                <label>8. O que mais atrai clientes hoje?</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="O que mais atrai clientes hoje?" value="Preço"> Preço</label>
+                    <label><input type="checkbox" name="O que mais atrai clientes hoje?" value="Atendimento"> Atendimento</label>
+                    <label><input type="checkbox" name="O que mais atrai clientes hoje?" value="Estilo"> Estilo</label>
+                    <label><input type="checkbox" name="O que mais atrai clientes hoje?" value="Localização"> Localização</label>
+                    <label><input type="checkbox" name="O que mais atrai clientes hoje?" value="Outros" id="atracao_outros_check"> Outros</label>
+                </div>
+                <div id="atracao_outros_div" class="conditional-field" style="display:none;">
+                    <label for="atracao_outros_text">9. Se selecionou 'Outros', por favor especifique</label>
+                    <textarea id="atracao_outros_text" name="Se selecionou 'Outros', por favor especifique (Atração)" rows="2"></textarea>
+                </div>
+            </fieldset>
+
+            <!-- 3. Identidade e Posicionamento -->
+            <fieldset>
+                <legend>3. Identidade e Posicionamento</legend>
+                
+                <label for="personalidade">10. Como você define a personalidade da barbearia?</label>
+                <textarea id="personalidade" name="Como você define a personalidade da barbearia?" rows="4" required></textarea>
+                
+                <label for="pessoa_famosa">11. Se sua barbearia fosse uma pessoa famosa, quem seria?</label>
+                <input type="text" id="pessoa_famosa" name="Se sua barbearia fosse uma pessoa famosa, quem seria?" required>
+                
+                <label for="diferenciais">12. Diferenciais em relação às concorrentes</label>
+                <textarea id="diferenciais" name="Diferenciais em relação às concorrentes" rows="4" required></textarea>
+                
+                <label>13. Serviços Oferecidos: Selecione os serviços disponíveis</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Corte masculino"> Corte masculino</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Barba"> Barba</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Sobrancelha"> Sobrancelha</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Coloração capilar"> Coloração capilar</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Hidratação/Tratamentos capilares"> Hidratação/Tratamentos capilares</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Pacotes promocionais"> Pacotes promocionais</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Corte infantil"> Corte infantil</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Pigmentação de barba"> Pigmentação de barba</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Barboterapia"> Barboterapia</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Design de barba e bigode"> Design de barba e bigode</label>
+                    <label><input type="checkbox" name="Serviços Oferecidos" value="Outros" id="servicos_outros_check"> Outros</label>
+                </div>
+                <div id="servicos_outros_div" class="conditional-field" style="display:none;">
+                    <label for="servicos_outros_text">14. Se selecionou 'Outros', por favor especifique</label>
+                    <textarea id="servicos_outros_text" name="Se selecionou 'Outros', por favor especifique (Serviços)" rows="2"></textarea>
+                </div>
+
+                <label for="servico_mais_vendido">15. Serviço mais vendido ou mais importante</label>
+                <input type="text" id="servico_mais_vendido" name="Serviço mais vendido ou mais importante" required>
+
+                <label>16. Estilo Visual Desejado: Escolha os estilos desejados para a identidade visual</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="Estilo Visual Desejado" value="Clássico/Vintage" required> Clássico/Vintage</label>
+                    <label><input type="radio" name="Estilo Visual Desejado" value="Moderno/Minimalista"> Moderno/Minimalista</label>
+                    <label><input type="radio" name="Estilo Visual Desejado" value="Street/Urbano"> Street/Urbano</label>
+                    <label><input type="radio" name="Estilo Visual Desejado" value="Luxo/Premium"> Luxo/Premium</label>
+                    <label><input type="radio" name="Estilo Visual Desejado" value="Jovem/Divertido"> Jovem/Divertido</label>
+                    <label><input type="radio" name="Estilo Visual Desejado" value="Retrô/Old School"> Retrô/Old School</label>
+                    <label><input type="radio" name="Estilo Visual Desejado" value="Outros" id="estilo_outros_radio"> Outros</label>
+                </div>
+                <div id="estilo_outros_div" class="conditional-field" style="display:none;">
+                    <label for="estilo_outros_text">17. Se selecionou 'Outros', por favor especifique</label>
+                    <textarea id="estilo_outros_text" name="Se selecionou 'Outros', por favor especifique (Estilo Visual)" rows="2"></textarea>
+                </div>
+
+                <label for="referencias_visuais">18. Cite marcas, imagens ou referências visuais que gosta</label>
+                <textarea id="referencias_visuais" name="Cite marcas, imagens ou referências visuais que gosta" rows="4" required></textarea>
+
+                <label for="cores_desejadas">19. Cores desejadas ou já utilizadas (caso existam)</label>
+                <input type="text" id="cores_desejadas" name="Cores desejadas ou já utilizadas (caso existam)" required>
+
+                <label for="icones_simbolos">20. Ícones ou símbolos que podem ser utilizados</label>
+                <input type="text" id="icones_simbolos" name="Ícones ou símbolos que podem ser utilizados" required>
+
+                <label for="elementos_nao_usados">21. Elementos que não devem ser usados</label>
+                <input type="text" id="elementos_nao_usados" name="Elementos que não devem ser usados" required>
+
+                <label for="concorrentes_referencias">22. Concorrentes e Referências: Liste até 3 barbearias que são referência ou concorrentes</label>
+                <textarea id="concorrentes_referencias" name="Concorrentes e Referências: Liste até 3 barbearias que são referência ou concorrentes" rows="4" required></textarea>
+
+                <label for="analise_concorrentes">23. Para cada concorrente, informe: Nome da barbearia, o que você gosta nela e o que faria diferente</label>
+                <textarea id="analise_concorrentes" name="Para cada concorrente, informe: Nome da barbearia, o que você gosta nela e o que faria diferente" rows="4" required></textarea>
+
+                <label>24. Tom de Comunicação: Selecione o tom que melhor representa a marca</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="Tom de Comunicação" value="Sério e profissional"> Sério e profissional</label>
+                    <label><input type="checkbox" name="Tom de Comunicação" value="Educado e acolhedor"> Educado e acolhedor</label>
+                    <label><input type="checkbox" name="Tom de Comunicação" value="Divertido e descontraído"> Divertido e descontraído</label>
+                    <label><input type="checkbox" name="Tom de Comunicação" value="Premium e exclusivo"> Premium e exclusivo</label>
+                    <label><input type="checkbox" name="Tom de Comunicação" value="Masculino e forte"> Masculino e forte</label>
+                </div>
+            </fieldset>
+
+            <!-- 4. Informações Complementares -->
+            <fieldset>
+                <legend>4. Informações Complementares</legend>
+                
+                <label for="slogan">25. Há slogan? Qual?</label>
+                <input type="text" id="slogan" name="Há slogan? Qual?" required>
+                
+                <label for="arte_logo_rascunho">26. Já possui alguma arte, logo ou rascunho?</label>
+                <textarea id="arte_logo_rascunho" name="Já possui alguma arte, logo ou rascunho?" rows="4" required></textarea>
+                
+                <label for="restricoes">27. Há restrições específicas sobre estilo, cores ou símbolos?</label>
+                <textarea id="restricoes" name="Há restrições específicas sobre estilo, cores ou símbolos?" rows="4" required></textarea>
+                
+                <label for="observacoes_gerais">28. Observações gerais</label>
+                <textarea id="observacoes_gerais" name="Observações gerais" rows="4" required></textarea>
+            </fieldset>
+
+            <button type="submit">Enviar Briefing</button>
+            <p id="statusMessage" style="display:none;"></p>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
