@@ -1,55 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('briefingForm');
     const statusMessage = document.getElementById('statusMessage');
-    const fieldsets = form.querySelectorAll('fieldset');
-    let currentStep = 0;
 
-    // 1. Inicialização: Esconde todos os fieldsets, exceto o primeiro
-    fieldsets.forEach((fieldset, index) => {
-        fieldset.style.display = index === 0 ? 'block' : 'none';
-    });
-
-    // 2. Função de Transição de Tela
-    function showStep(stepIndex) {
-        // Garante que o índice está dentro dos limites
-        if (stepIndex < 0 || stepIndex >= fieldsets.length) return;
-
-        // Esconde o fieldset atual
-        fieldsets[currentStep].style.display = 'none';
-        
-        // Mostra o novo fieldset
-        fieldsets[stepIndex].style.display = 'block';
-        
-        // Atualiza o passo atual
-        currentStep = stepIndex;
-        
-        // Limpa a mensagem de status
-        showStatus('', '');
-    }
-
-    // 3. Lógica de Navegação
-    form.addEventListener('click', (e) => {
-        // Verifica se o clique foi em um botão de navegação
-        if (e.target.classList.contains('next-step') || e.target.classList.contains('prev-step')) {
-            e.preventDefault(); // Previne o envio do formulário
-
-            if (e.target.classList.contains('next-step')) {
-                const currentFieldset = fieldsets[currentStep];
-                
-                // **VALIDAÇÃO SIMPLIFICADA:** Usa a validação nativa do HTML5
-                if (!currentFieldset.checkValidity()) {
-                    currentFieldset.reportValidity();
-                    showStatus('Por favor, preencha todos os campos obrigatórios para avançar.', 'error');
-                    return;
-                }
-                showStep(currentStep + 1);
-            } else if (e.target.classList.contains('prev-step')) {
-                showStep(currentStep - 1);
-            }
-        }
-    });
-
-    // --- Lógica para Campos Condicionais (Mantida) ---
+    // --- Lógica para Campos Condicionais ---
 
     // Função genérica para campos condicionais
     function setupConditionalField(triggerId, targetId) {
@@ -82,8 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupConditionalField('servicos_outros_check', 'servicos_outros_div');
     setupConditionalField('estilo_outros_radio', 'estilo_outros_div');
 
-
-    // --- Lógica de Submissão do Formulário (Mantida) ---
+    // --- Lógica de Submissão do Formulário ---
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -93,6 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
             showStatus('Erro: O URL do Google Apps Script não foi configurado.', 'error');
+            return;
+        }
+
+        // Validação nativa do HTML5
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            showStatus('Por favor, preencha todos os campos obrigatórios.', 'error');
             return;
         }
 
@@ -139,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // O sucesso é inferido se não houver erro de rede.
             showStatus('Briefing enviado com sucesso! Agradecemos o seu preenchimento.', 'success');
             form.reset(); // Limpa o formulário após o envio
-            showStep(0); // Volta para o primeiro passo
             
             // Oculta campos condicionais após o reset
             document.getElementById('atracao_outros_div').style.display = 'none';
